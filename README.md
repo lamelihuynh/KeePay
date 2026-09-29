@@ -81,19 +81,30 @@ Android emulator, sửa `apps/mobile/.env` → `EXPO_PUBLIC_API_URL=http://10.0.
 
 ## Kiến trúc & luồng dữ liệu
 
-```
-Mobile (Expo)                     Server (NestJS)                  DB (Postgres)
-┌─────────────────┐   HTTP/JSON   ┌──────────────────┐   Prisma    ┌───────────┐
-│ presentation     │ ───────────► │ controller        │ ─────────► │           │
-│ (screens, hooks) │               │ (validate + zod)  │             │  tables   │
-│        ↓         │               │        ↓          │             │           │
-│ domain (usecase) │               │ service           │ ◄─────────  └───────────┘
-│  ← validate zod  │               │ (nghiệp vụ)        │
-│        ↓         │               │        ↓          │
-│ data (axios)      │               │ repository        │
-└─────────────────┘               │ (abstract class)   │
-        ▲                          └──────────────────┘
-        └──────── @keepay/shared (VietQR, split, zod schema) dùng chung cả 2 phía ────────┘
+```mermaid
+flowchart LR
+  Shared["@keepay/shared<br/>VietQR, split, zod schemas"]
+  DB[(Postgres)]
+
+  subgraph Mobile[Mobile - Expo]
+    M1["Presentation<br/>Screens, hooks"]
+    M2["Domain<br/>Use cases"]
+    M3["Data<br/>Axios repositories"]
+    M1 --> M2 --> M3
+    M2 -. validate .-> Shared
+  end
+
+  subgraph Server[Server - NestJS]
+    S1["Controller<br/>Validate with zod"]
+    S2["Service<br/>Business rules"]
+    S3["Repository<br/>Abstract class"]
+    S1 --> S2 --> S3
+  end
+
+  M3 -->|HTTP / JSON| S1
+  S3 -->|Prisma| DB
+  S1 -. schemas .-> Shared
+  Shared -. shared by both sides .-> M3
 ```
 
 Nguyên tắc chốt cho toàn bộ codebase:
