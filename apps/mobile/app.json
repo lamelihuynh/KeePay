@@ -1,0 +1,13 @@
+{
+  "expo": {
+    "name": "KeePay",
+    "slug": "keepay",
+    "scheme": "keepay",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "automatic",
+    "plugins": ["expo-router", "expo-secure-store", ["expo-image-picker", { "photosPermission": "KeePay cần truy cập ảnh để đính kèm hóa đơn." }]],
+    "ios": { "bundleIdentifier": "dev.keepay.app", "supportsTablet": false },
+    "android": { "package": "dev.keepay.app" }
+  }
+}

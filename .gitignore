@@ -1,0 +1,44 @@
+# Dependencies
+node_modules
+
+# Build output
+dist
+build
+*.tsbuildinfo
+
+# Expo / React Native
+.expo
+.expo-shared
+web-build
+apps/mobile/ios
+apps/mobile/android
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+
+# Test / coverage
+coverage
+.turbo
+.eslintcache
+
+# Biến môi trường — KHÔNG bao giờ commit secret thật.
+# .env.example thì commit bình thường (không khớp pattern dưới vì không phải "chính xác" .env*)
+.env
+.env.local
+.env.*.local
+
+# Log
+*.log
+npm-debug.log*
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/extensions.json
+.idea
+
+# Prisma (giữ lại migrations/schema.prisma; chỉ bỏ client sinh ra nếu output custom)
+apps/server/src/generated
